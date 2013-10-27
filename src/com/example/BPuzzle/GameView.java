@@ -23,14 +23,14 @@ public class GameView extends View {
 
     private class MyShape{
 
-        MyShape(Rect r, int c, Boolean t){
+        MyShape(Rect r, int c, Orientation t){
             rect = r;
             color = c;
             type = t;
         }
         Rect rect;
         int color;
-        Boolean type;
+        Orientation type;
     }
 
     Paint mPaint = new Paint();
@@ -40,8 +40,8 @@ public class GameView extends View {
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mShapes.add(new MyShape(new Rect(0, 0, 100, 100), Color.RED, Boolean.TRUE));
-        mShapes.add( new MyShape( new Rect( 200, 300, 300, 350), Color.BLUE,Boolean.FALSE ) );
+        mShapes.add(new MyShape(new Rect(0, 0, 100, 100), Color.RED, Orientation.HORIZONTAL));
+        mShapes.add( new MyShape( new Rect( 200, 300, 300, 350), Color.BLUE,Orientation.VERTICAL ) );
     }
 
     protected void onDraw( Canvas canvas ) {
