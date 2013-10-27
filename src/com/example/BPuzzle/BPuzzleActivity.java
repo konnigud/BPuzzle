@@ -24,5 +24,6 @@ public class BPuzzleActivity extends Activity {
 
     public void buttonPressed( View view){
         Intent intent = new Intent(this, GameActivity.class);
+        startActivity( intent );
     }
 }

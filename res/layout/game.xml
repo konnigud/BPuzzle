@@ -5,10 +5,15 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="26sp"
             android:text="Play!!!!"
             android:gravity="center"
             />
+    <com.example.BPuzzle.GameView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        />
 </LinearLayout>

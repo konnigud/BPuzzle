@@ -11,7 +11,6 @@ import android.os.Bundle;
  * To change this template use File | Settings | File Templates.
  */
 public class GameActivity extends Activity {
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game);
