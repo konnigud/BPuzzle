@@ -143,12 +143,27 @@ public class GameView extends View {
 
         switch ( event.getAction() ) {
             case MotionEvent.ACTION_DOWN:
-                Toast.makeText(super.getContext(),"x: "+(x/80)+" y: "+(y/80),Toast.LENGTH_LONG).show();
                 mMovingShape = findShape( x, y );
                 break;
             case MotionEvent.ACTION_UP:
                 if ( mMovingShape != null ) {
+                    boolean win = false;
+                    if(mMovingShape.type == Orientation.VERTICAL){
+                        int newTop = Math.round(((float)mMovingShape.rect.top)/((float)80));
+                        mMovingShape.rect.offsetTo(mMovingShape.rect.left,newTop*80);
+                    }
+                    else{
+                        int newLeft = Math.round(((float)mMovingShape.rect.left)/((float)80));
+                        mMovingShape.rect.offsetTo(newLeft*80,mMovingShape.rect.top);
+                        if(mMovingShape.rect.right >= 460)
+                            win = true;
+                    }
+                    invalidate();
                     mMovingShape = null;
+
+                    if(win){
+                        Toast.makeText(super.getContext(),"YOU WIN!!!",Toast.LENGTH_LONG).show();
+                    }
                     // emit an custom event ....
                 }
                 break;
