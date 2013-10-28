@@ -16,10 +16,13 @@ import android.view.View;
 
 public class BPuzzleActivity extends Activity {
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
     }
 
     public void buttonPressed( View view){
@@ -27,3 +30,17 @@ public class BPuzzleActivity extends Activity {
         startActivity( intent );
     }
 }
+/*
+setContentView(R.layout.activity_play_game);
+        Intent intent = getIntent();
+      //  String puzzleNr = intent.getStringExtra(MainActivity.PUZZLE_NUMBER);
+        m_bv = (BoardView) findViewById( R.id.boardView );
+        m_bv.setMoveEventHandler( new OnMoveEventHandler(){
+            @Override
+            public void onMove(int col, int row) {
+                String actionStr = "(" + col + "," + row + ")";
+                }
+
+        });
+
+*/

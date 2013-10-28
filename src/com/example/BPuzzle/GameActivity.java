@@ -11,8 +11,18 @@ import android.os.Bundle;
  * To change this template use File | Settings | File Templates.
  */
 public class GameActivity extends Activity {
+    private GameView gv;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game);
+
+        gv = (GameView) findViewById( R.id.gameView );
+        gv.setMoveEventHandler( new OnMoveEventHandler(){
+            @Override
+            public void onMove(int col, int row) {
+                String actionStr = "(" + col + "," + row + ")";
+            }
+
+        });
     }
 }
