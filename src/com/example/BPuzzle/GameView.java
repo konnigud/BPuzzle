@@ -50,7 +50,15 @@ public class GameView extends View {
             rect = new Rect(tX*80,tY*80,right*80,bottom*80);
             //rect = new Rect((int)input.charAt(3)*80,(int)input.charAt(5)*80,(int)input.charAt(5)*80+(int)input.charAt(7)*80,(int)input.charAt(3)*80+80);
             System.out.println("rect: "+rect.toString());
-            color = Color.YELLOW;
+
+            if(!playerDrawn) {
+                color = Color.YELLOW;
+                playerDrawn = true;
+            }
+            else {
+                color = randomColor();
+            }
+
         }
         Rect rect;
         int color;
@@ -58,6 +66,7 @@ public class GameView extends View {
     }
 
     Paint mPaint = new Paint();
+    Boolean playerDrawn = false;
     Paint m_Paint = new Paint();
     ArrayList<MyShape> mShapes = new ArrayList<MyShape>();
     MyShape mMovingShape = null;
@@ -196,5 +205,26 @@ public class GameView extends View {
 
     public void setMoveEventHandler( OnMoveEventHandler handler ) {
         m_moveHandler = handler;
+    }
+
+    public int randomColor() {
+
+        int colorInt = (int) (Math.random()*4);
+        System.out.println("Talan: " + colorInt);
+
+
+            switch(colorInt) {
+                case 0:
+                    return Color.BLUE;
+                case 1:
+                    return Color.RED;
+                case 2:
+                    return Color.CYAN;
+                case 3:
+                    return Color.GREEN;
+
+            }
+            return Color.BLUE;
+
     }
 }
