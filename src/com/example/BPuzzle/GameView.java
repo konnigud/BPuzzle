@@ -28,6 +28,30 @@ public class GameView extends View {
             color = c;
             type = t;
         }
+        MyShape(String input){
+            type = input.charAt(1) == 'V' ? Orientation.VERTICAL : Orientation.HORIZONTAL;
+            // x y length
+            int tX = Character.getNumericValue(input.charAt(3));
+            int tY = Character.getNumericValue(input.charAt(5));
+            int tS = Character.getNumericValue(input.charAt(7));
+            System.out.println("3: " + tX);
+            System.out.println("5: " + tY);
+            System.out.println("7: " + tS);
+            int right;
+            int bottom;
+            if(type == Orientation.VERTICAL){
+                right = tX+1;
+                bottom = tY+tS;
+            }
+            else{
+                right = tX+tS;
+                bottom = tY+1;
+            }
+            rect = new Rect(tX*80,tY*80,right*80,bottom*80);
+            //rect = new Rect((int)input.charAt(3)*80,(int)input.charAt(5)*80,(int)input.charAt(5)*80+(int)input.charAt(7)*80,(int)input.charAt(3)*80+80);
+            System.out.println("rect: "+rect.toString());
+            color = Color.YELLOW;
+        }
         Rect rect;
         int color;
         Orientation type;
@@ -56,14 +80,15 @@ public class GameView extends View {
         xOffset = 0;
         yOffset = 0;
 
-        mShapes.add(new MyShape(new Rect(80, 160, 240, 240), Color.RED, Orientation.HORIZONTAL));
-        mShapes.add( new MyShape( new Rect( 0, 80, 80, 320), Color.BLUE,Orientation.VERTICAL ) );
-        mShapes.add(new MyShape(new Rect(0, 0, 160, 80), Color.GREEN, Orientation.HORIZONTAL));
-        mShapes.add( new MyShape( new Rect( 240, 80, 320, 320), Color.MAGENTA,Orientation.VERTICAL ) );
-        mShapes.add(new MyShape(new Rect(160, 400, 400, 480), Color.CYAN, Orientation.HORIZONTAL));
-        mShapes.add( new MyShape( new Rect( 0, 320, 80, 480), Color.GRAY,Orientation.VERTICAL ) );
-        mShapes.add(new MyShape(new Rect(320, 320, 480, 400), Color.BLACK, Orientation.HORIZONTAL));
-        mShapes.add( new MyShape( new Rect( 400, 0, 480, 240), Color.YELLOW,Orientation.VERTICAL ) );
+        //mShapes.add(new MyShape(new Rect(80, 160, 240, 240), Color.RED, Orientation.HORIZONTAL));
+        mShapes.add(new MyShape("(H 1 2 2)"));
+        mShapes.add( new MyShape( "(V 0 1 3") );
+        mShapes.add(new MyShape("(H 0 0 2)"));
+        mShapes.add( new MyShape( "(V 3 1 3)" ));
+        mShapes.add(new MyShape("(H 2 5 3)"));
+        mShapes.add( new MyShape( "(V 0 4 2)") );
+        mShapes.add(new MyShape("(H 4 4 2)"));
+        mShapes.add( new MyShape( "(V 5 0 3)" ) );
 
         //(H 1 2 2), (V 0 1 3), (H 0 0 2), (V 3 1 3), (H 2 5 3), (V 0 4 2), (H 4 4 2), (V 5 0 3)
     }
@@ -109,6 +134,7 @@ public class GameView extends View {
 
         switch ( event.getAction() ) {
             case MotionEvent.ACTION_DOWN:
+                Toast.makeText(super.getContext(),"x: "+(x/80)+" y: "+(y/80),Toast.LENGTH_LONG).show();
                 mMovingShape = findShape( x, y );
                 break;
             case MotionEvent.ACTION_UP:
