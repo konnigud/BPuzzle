@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -24,7 +25,7 @@ public class GameView extends View {
     private class MyShape{
 
         MyShape(Rect r, int c, Orientation t){
-            rect = r;
+            baseRect = r;
             color = c;
             type = t;
         }
@@ -34,9 +35,6 @@ public class GameView extends View {
             int tX = Character.getNumericValue(input.charAt(3));
             int tY = Character.getNumericValue(input.charAt(5));
             int tS = Character.getNumericValue(input.charAt(7));
-            System.out.println("3: " + tX);
-            System.out.println("5: " + tY);
-            System.out.println("7: " + tS);
             int right;
             int bottom;
             if(type == Orientation.VERTICAL){
@@ -47,9 +45,7 @@ public class GameView extends View {
                 right = tX+tS;
                 bottom = tY+1;
             }
-            rect = new Rect(tX*80,tY*80,right*80,bottom*80);
-            //rect = new Rect((int)input.charAt(3)*80,(int)input.charAt(5)*80,(int)input.charAt(5)*80+(int)input.charAt(7)*80,(int)input.charAt(3)*80+80);
-            System.out.println("rect: "+rect.toString());
+            baseRect = new Rect(tX,tY,right,bottom);
 
             if(!playerDrawn) {
                 color = Color.YELLOW;
@@ -60,6 +56,7 @@ public class GameView extends View {
             }
 
         }
+        Rect baseRect;
         Rect rect;
         int color;
         Orientation type;
@@ -72,6 +69,8 @@ public class GameView extends View {
     MyShape mMovingShape = null;
     int xOffset;
     int yOffset;
+
+    int mSize = 0;
     private char[][] m_board = new char[6][6];
     private int m_cellWidth = 0;
     private int m_cellHeight = 0;
@@ -105,11 +104,6 @@ public class GameView extends View {
 
     protected void onDraw( Canvas canvas ) {
        // canvas.drawBitmap(bm, 0, 0, null);
-        for ( MyShape shape : mShapes ) {
-            mPaint.setColor( shape.color );
-            canvas.drawRect( shape.rect, mPaint );
-        }
-
         for ( int r=5; r>=0; --r ) {
             for ( int c=0; c<6; ++c ) {
                 m_rect.set( c * m_cellWidth, r * m_cellHeight,
@@ -121,34 +115,60 @@ public class GameView extends View {
 
             }
         }
+
+        for ( MyShape shape : mShapes ) {
+            mPaint.setColor( shape.color );
+            canvas.drawRect( shape.rect, mPaint );
+        }
+    }
+
+    private void scaleRect(){
+        for (MyShape s : mShapes){
+            s.rect = new Rect(s.baseRect.left*m_cellWidth,s.baseRect.top*m_cellHeight,s.baseRect.right*m_cellWidth,s.baseRect.bottom*m_cellHeight);
+        }
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = Math.min(getMeasuredWidth(), getMeasuredHeight());
-        setMeasuredDimension(size, size);
+        mSize = Math.min(getMeasuredWidth(), getMeasuredHeight());
+        setMeasuredDimension(mSize, mSize);
     }
 
     @Override
     protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld) {
         m_cellWidth = xNew / 6;
         m_cellHeight = yNew / 6;
+        scaleRect();
     }
 
     public boolean onTouchEvent( MotionEvent event ) {
-
         int x = (int) event.getX();
         int y = (int) event.getY();
 
         switch ( event.getAction() ) {
             case MotionEvent.ACTION_DOWN:
-                Toast.makeText(super.getContext(),"x: "+(x/80)+" y: "+(y/80),Toast.LENGTH_LONG).show();
                 mMovingShape = findShape( x, y );
                 break;
             case MotionEvent.ACTION_UP:
                 if ( mMovingShape != null ) {
+                    boolean win = false;
+                    if(mMovingShape.type == Orientation.VERTICAL){
+                        int newTop = Math.round(((float)mMovingShape.rect.top)/((float)m_cellHeight));
+                        mMovingShape.rect.offsetTo(mMovingShape.rect.left,newTop*m_cellHeight);
+                    }
+                    else{
+                        int newLeft = Math.round(((float)mMovingShape.rect.left)/((float)m_cellWidth));
+                        mMovingShape.rect.offsetTo(newLeft*m_cellWidth,mMovingShape.rect.top);
+                        if(mMovingShape.rect.right >= mSize && mMovingShape == mShapes.get(0))
+                            win = true;
+                    }
+                    invalidate();
                     mMovingShape = null;
+
+                    if(win){
+                        Toast.makeText(super.getContext(),"YOU WIN!!!",Toast.LENGTH_LONG).show();
+                    }
                     // emit an custom event ....
                 }
                 break;
@@ -204,14 +224,12 @@ public class GameView extends View {
     }
 
     public void setMoveEventHandler( OnMoveEventHandler handler ) {
+
         m_moveHandler = handler;
     }
 
     public int randomColor() {
-
         int colorInt = (int) (Math.random()*4);
-        System.out.println("Talan: " + colorInt);
-
 
             switch(colorInt) {
                 case 0:
