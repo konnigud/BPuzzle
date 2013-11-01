@@ -11,15 +11,28 @@
             android:layout_weight="20"
             android:layout_height="dp"
             android:textSize="26sp"
+            android:textColor="#FFFF00"
             android:text="BPuzzle \nThe TRAFFIC JAM!!!"
             android:gravity="center"
             />
     <Button
             android:id="@+id/play"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="10"
             android:layout_height="0dp"
             android:text="Play"
+            android:onClick="buttonPressed"
+            />
+    <Button
+            android:id="@+id/puzzles"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="10"
+            android:layout_height="0dp"
+            android:text="Puzzles"
             android:onClick="buttonPressed"
             />
 </LinearLayout>

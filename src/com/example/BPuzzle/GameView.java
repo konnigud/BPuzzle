@@ -1,17 +1,24 @@
 package com.example.BPuzzle;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Xml;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+import org.xmlpull.v1.XmlPullParser;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -100,6 +107,7 @@ public class GameView extends View {
 
         //(H 1 2 2), (V 0 1 3), (H 0 0 2), (V 3 1 3), (H 2 5 3), (V 0 4 2), (H 4 4 2), (V 5 0 3)
     }
+
 
 
     protected void onDraw( Canvas canvas ) {
