@@ -16,6 +16,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class GameView extends View {
             baseRect = r;
             color = c;
             type = t;
+
         }
         MyShape(String input){
             type = input.charAt(1) == 'V' ? Orientation.VERTICAL : Orientation.HORIZONTAL;
@@ -62,11 +64,14 @@ public class GameView extends View {
                 color = randomColor();
             }
 
+            bm = getCar(input.charAt(1), input.charAt(7));
+
         }
         Rect baseRect;
         Rect rect;
         int color;
         Orientation type;
+        Bitmap bm;
     }
 
     Paint mPaint = new Paint();
@@ -126,7 +131,8 @@ public class GameView extends View {
 
         for ( MyShape shape : mShapes ) {
             mPaint.setColor( shape.color );
-            canvas.drawRect( shape.rect, mPaint );
+            //canvas.drawRect( shape.rect, mPaint );
+            canvas.drawBitmap(shape.bm,shape.rect.left,shape.rect.top,mPaint);
         }
     }
 
@@ -252,5 +258,99 @@ public class GameView extends View {
             }
             return Color.BLUE;
 
+    }
+
+    public Bitmap getCar(char orientation, int length) {
+
+        double random = Math.random();
+
+
+
+        if(orientation == 'H') {
+            if(length == 2) {
+                File f = new File("/drawable-hdpi/bluehor2.png");
+                try {
+                    System.out.println("before check");
+                    System.out.println("check: " + f.getCanonicalPath());
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                return BitmapFactory.decodeFile("res/drawable-hdpi/bluehor2");
+            }
+            else {
+                File f = new File("/drawable-hdpi/brownhor3.png");
+                try {
+                    System.out.println("before check");
+                    System.out.println("check: " + f.getCanonicalPath());
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                return BitmapFactory.decodeFile("res/drawable-hdpi/brownhor3");
+            }
+        }
+        else {
+            if(length == 2) {
+                File f = new File("/drawable-hdpi/bluevert2.png");
+                try {
+                    System.out.println("before check");
+                    System.out.println("check: " + f.getCanonicalPath());
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                return BitmapFactory.decodeFile("res/drawable-hdpi/bluevert2");            }
+            else {
+                File f = new File("/drawable-hdpi/brownvert3.png");
+                String check;
+                try {
+                    System.out.println("before check");
+                    System.out.println("check: " + f.getCanonicalPath());
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+
+                return BitmapFactory.decodeFile("res/drawable-hdpi/brownvert3");            }
+        }
+
+        /*
+        if(orientation == 'H') {
+            if(length == 2) {
+                if(random <= 0.25)
+                    return BitmapFactory.decodeFile("drawable-hdpi/bluehor2.png");
+                else if (random <= 0.5)
+                    return BitmapFactory.decodeFile("drawable-hdpi/cyanhor2.png");
+                else if(random <= 0.75)
+                    return BitmapFactory.decodeFile("drawable-hdpi/greenhor2.png");
+                else
+                    return BitmapFactory.decodeFile("drawable-hdpi/redhor2.png");
+            }
+            else {
+                if(random <= 0.33)
+                    return BitmapFactory.decodeFile("drawable-hdpi/brownhor3.png");
+                else if (random <= 0.67)
+                    return BitmapFactory.decodeFile("drawable-hdpi/purplehor3.png");
+                else
+                    return BitmapFactory.decodeFile("drawable-hdpi/turquoisehor3.png");
+            }
+        }
+        else {
+            if(length == 2) {
+                if(random <= 0.25)
+                    return BitmapFactory.decodeFile("drawable-hdpi/bluevert2.png");
+                else if (random <= 0.5)
+                    return BitmapFactory.decodeFile("drawable-hdpi/cyanvert2.png");
+                else if(random <= 0.75)
+                    return BitmapFactory.decodeFile("drawable-hdpi/greenvert2.png");
+                else
+                    return BitmapFactory.decodeFile("drawable-hdpi/redvert2.png");
+            }
+            else {
+                if(random <= 0.33)
+                    return BitmapFactory.decodeFile("drawable-hdpi/brownvert3.png");
+                else if (random <= 0.67)
+                    return BitmapFactory.decodeFile("drawable-hdpi/purplevert3.png");
+                else
+                    return BitmapFactory.decodeFile("drawable-hdpi/turquoisevert3.png");
+            }
+        }*/
     }
 }
