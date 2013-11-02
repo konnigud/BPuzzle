@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 public class BPuzzleActivity extends Activity {
 
@@ -25,7 +26,12 @@ public class BPuzzleActivity extends Activity {
 
     }
 
-    public void buttonPressed( View view){
+    public void buttonPlayPressed( View view){
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity( intent );
+    }
+
+    public void buttonPuzzlesPressed( View view){
         Intent intent = new Intent(this, GameActivity.class);
         startActivity( intent );
     }

@@ -132,7 +132,8 @@ public class GameView extends View {
         for ( MyShape shape : mShapes ) {
             mPaint.setColor( shape.color );
             //canvas.drawRect( shape.rect, mPaint );
-            canvas.drawBitmap(shape.bm,shape.rect.left,shape.rect.top,mPaint);
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.purplehor3);
+            canvas.drawBitmap(bmp,shape.rect.left,shape.rect.top,null);
         }
     }
 

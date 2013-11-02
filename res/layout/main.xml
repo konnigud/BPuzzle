@@ -23,7 +23,7 @@
             android:layout_weight="10"
             android:layout_height="0dp"
             android:text="Play"
-            android:onClick="buttonPressed"
+            android:onClick="buttonPlayPressed"
             />
     <Button
             android:id="@+id/puzzles"
@@ -33,7 +33,7 @@
             android:layout_weight="10"
             android:layout_height="0dp"
             android:text="Puzzles"
-            android:onClick="buttonPressed"
+            android:onClick="buttonPuzzlesPressed"
             />
 </LinearLayout>
 
