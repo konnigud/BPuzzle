@@ -105,22 +105,32 @@ public class GameView extends View {
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        m_Paint.setColor( Color.WHITE );
+        System.out.println("context: " + context.isRestricted());
+        m_Paint.setColor(Color.WHITE);
        // m_Paint.
         m_Paint.setStyle( Paint.Style.STROKE );
 
         xOffset = 0;
         yOffset = 0;
 
+        String nextSetup = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getString("setup",null);
+        System.out.println("setup: "+ nextSetup);
+
+        String[] setup = nextSetup.split(", ");
+
+        for(String s : setup){
+            mShapes.add(new MyShape(s));
+        }
+
         //mShapes.add(new MyShape(new Rect(80, 160, 240, 240), Color.RED, Orientation.HORIZONTAL));
-        mShapes.add(new MyShape("(H 1 2 2)"));
+        /*mShapes.add(new MyShape("(H 1 2 2)"));
         mShapes.add( new MyShape( "(V 0 1 3") );
         mShapes.add(new MyShape("(H 0 0 2)"));
         mShapes.add( new MyShape( "(V 3 1 3)" ));
         mShapes.add(new MyShape("(H 2 5 3)"));
         mShapes.add( new MyShape( "(V 0 4 2)") );
         mShapes.add(new MyShape("(H 4 4 2)"));
-        mShapes.add( new MyShape( "(V 5 0 3)" ) );
+        mShapes.add( new MyShape( "(V 5 0 3)" ) );*/
 
         //(H 1 2 2), (V 0 1 3), (H 0 0 2), (V 3 1 3), (H 2 5 3), (V 0 4 2), (H 4 4 2), (V 5 0 3)
     }

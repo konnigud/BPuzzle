@@ -1,7 +1,11 @@
 package com.example.BPuzzle;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.io.InputStream;
 
@@ -13,18 +17,31 @@ import java.io.InputStream;
  * To change this template use File | Settings | File Templates.
  */
 public class GameActivity extends Activity {
-    private GameView gv;
+
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        int puzzle = Integer.parseInt(extras.getSerializable("puzzle_id").toString());
+        System.out.println("puzzle: "+puzzle);
+
+        PuzzlesDB puzzlesDB = new PuzzlesDB(this);
+        Cursor cursor = puzzlesDB.queryPuzzle(puzzle);
+        if(cursor.moveToFirst()){
+            String setup = cursor.getString(cursor.getColumnIndex("setup"));
+            SharedPreferences.Editor editor = getSharedPreferences("myState",MODE_MULTI_PROCESS).edit();
+            editor.clear();
+            editor.putString("setup",setup);
+            editor.commit();
+        }
+        else{
+            System.out.println("Could not load puzzle "+puzzle);
+            Intent intent = new Intent(this, PuzzlesActivity.class);
+            Toast.makeText(getApplicationContext(),"Could not load puzzle "+puzzle,Toast.LENGTH_LONG).show();
+            startActivity(intent);
+        }
+        cursor.close();
         setContentView(R.layout.game);
-
-        gv = (GameView) findViewById( R.id.gameView );
-        gv.setMoveEventHandler( new OnMoveEventHandler(){
-            @Override
-            public void onMove(int col, int row) {
-                String actionStr = "(" + col + "," + row + ")";
-            }
-
-        });
     }
 }

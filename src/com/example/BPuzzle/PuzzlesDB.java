@@ -106,4 +106,8 @@ public class PuzzlesDB {
         close();
         return value;
     }
+
+    public Cursor getHighestOpen(){
+        return db.query(DBHelper.TablePuzzles,DBHelper.TablePuzzlesCol,DBHelper.TablePuzzlesCol[3]+"="+1,null,null,null,DBHelper.TablePuzzlesCol[0]+ " desc");
+    }
 }
