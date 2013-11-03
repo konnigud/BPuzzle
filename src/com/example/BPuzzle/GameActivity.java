@@ -29,11 +29,15 @@ public class GameActivity extends Activity {
         PuzzlesDB puzzlesDB = new PuzzlesDB(this);
         Cursor cursor = puzzlesDB.queryPuzzle(puzzle);
         if(cursor.moveToFirst()){
-            String setup = cursor.getString(cursor.getColumnIndex("setup"));
-            SharedPreferences.Editor editor = getSharedPreferences("myState",MODE_MULTI_PROCESS).edit();
-            editor.clear();
-            editor.putString("setup",setup);
-            editor.commit();
+            if(cursor.getInt(cursor.getColumnIndex("open"))== 1){
+                String setup = cursor.getString(cursor.getColumnIndex("setup"));
+                SharedPreferences.Editor editor = getSharedPreferences("myState",MODE_MULTI_PROCESS).edit();
+                editor.clear();
+                editor.putString("setup",setup);
+                editor.commit();
+                cursor.close();
+                setContentView(R.layout.game);
+            }
         }
         else{
             System.out.println("Could not load puzzle "+puzzle);
@@ -41,7 +45,6 @@ public class GameActivity extends Activity {
             Toast.makeText(getApplicationContext(),"Could not load puzzle "+puzzle,Toast.LENGTH_LONG).show();
             startActivity(intent);
         }
-        cursor.close();
-        setContentView(R.layout.game);
+
     }
 }

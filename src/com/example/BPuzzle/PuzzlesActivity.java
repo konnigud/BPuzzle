@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 /**
  * Created with IntelliJ IDEA.
@@ -55,12 +56,17 @@ public class PuzzlesActivity extends ListActivity {
 
     @Override
     protected void onListItemClick(ListView l,View v,int p,long id){
-        System.out.println("p: "+p);
-        Intent intent = new Intent(this, GameActivity.class);
-        Bundle extras = new Bundle();
-        extras.putSerializable("puzzle_id",p+1);
-        intent.putExtras(extras);
-        startActivity( intent );
+        int puzzle = p+1;
+        if(puzzlesDB.isOpen(puzzle)){
+            Intent intent = new Intent(this, GameActivity.class);
+            Bundle extras = new Bundle();
+            extras.putSerializable("puzzle_id",p+1);
+            intent.putExtras(extras);
+            startActivity( intent );
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Puzzle "+puzzle+" is not playable yet",Toast.LENGTH_LONG).show();
+        }
 
     }
 }
