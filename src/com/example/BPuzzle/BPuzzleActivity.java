@@ -55,7 +55,6 @@ public class BPuzzleActivity extends Activity {
 
     public void buttonPlayPressed( View view){
         Intent intent = new Intent(this, GameActivity.class);
-        puzzleDB.openPuzzle(2);
 
         Cursor cursor = puzzleDB.getHighestOpen();
         cursor.moveToFirst();

@@ -1,11 +1,14 @@
 package com.example.BPuzzle;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
@@ -91,6 +94,7 @@ public class GameView extends View {
     private OnMoveEventHandler m_moveHandler = null;
     Rect m_rect = new Rect();
     ShapeDrawable m_shape = new ShapeDrawable( new OvalShape() );
+    int puzzle;
    // Bitmap bm = BitmapFactory.decodeFile("drawable/game_bckgrn.png");
 
     public GameView(Context context, AttributeSet attrs) {
@@ -103,8 +107,8 @@ public class GameView extends View {
         xOffset = 0;
         yOffset = 0;
 
-        String nextSetup = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getString("setup",null);
-        System.out.println("setup: "+ nextSetup);
+        String nextSetup = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getString("setup", null);
+        puzzle = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getInt("puzzle",0);
 
         String[] setup = nextSetup.split(", ");
 
@@ -196,6 +200,12 @@ public class GameView extends View {
 
                     if(win){
                         Toast.makeText(super.getContext(),"YOU WIN!!!",Toast.LENGTH_LONG).show();
+                        Activity host = (Activity) this.getContext();
+                        Intent intent = new Intent(host,GameActivity.class);
+                        Bundle extras = new Bundle();
+                        extras.putSerializable("puzzle_id",puzzle+1);
+                        intent.putExtras(extras);
+                        host.startActivity(intent);
                     }
                     // emit an custom event ....
                 }
