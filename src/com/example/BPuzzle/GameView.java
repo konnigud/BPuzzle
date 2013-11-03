@@ -62,16 +62,6 @@ public class GameView extends View {
             }
             baseRect = new Rect(tX,tY,right,bottom);
 
-           /* if(!playerDrawn) {
-                color = Color.YELLOW;
-                playerDrawn = true;
-            }
-            else {
-                color = randomColor();
-            }*/
-
-
-
             if(!playerDrawn) {
                 bm = BitmapFactory.decodeResource(getResources(),R.drawable.hero);
                 playerDrawn = true;
@@ -93,7 +83,7 @@ public class GameView extends View {
     MyShape mMovingShape = null;
     int xOffset;
     int yOffset;
-
+    Bitmap background = BitmapFactory.decodeResource(getResources(),R.drawable.game);
     int mSize = 0;
     private char[][] m_board = new char[6][6];
     private int m_cellWidth = 0;
@@ -128,8 +118,8 @@ public class GameView extends View {
 
 
     protected void onDraw( Canvas canvas ) {
-       // canvas.drawBitmap(bm, 0, 0, null);
-        for ( int r=5; r>=0; --r ) {
+       canvas.drawBitmap(background, 0, 0, null);
+        /*for ( int r=5; r>=0; --r ) {
             for ( int c=0; c<6; ++c ) {
                 m_rect.set( c * m_cellWidth, r * m_cellHeight,
                         c * m_cellWidth + m_cellWidth, r * m_cellHeight + m_cellHeight );
@@ -139,7 +129,10 @@ public class GameView extends View {
                 m_shape.setBounds(m_rect);
 
             }
-        }
+        }*/
+
+        System.out.println("MaxHeight: " + canvas.getHeight());
+        System.out.println("MaxWidth: " + canvas.getWidth());
 
         for ( MyShape shape : mShapes ) {
             mPaint.setColor( shape.color );
