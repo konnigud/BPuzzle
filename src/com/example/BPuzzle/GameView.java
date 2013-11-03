@@ -70,6 +70,8 @@ public class GameView extends View {
                 color = randomColor();
             }*/
 
+
+
             if(!playerDrawn) {
                 bm = BitmapFactory.decodeResource(getResources(),R.drawable.hero);
                 playerDrawn = true;

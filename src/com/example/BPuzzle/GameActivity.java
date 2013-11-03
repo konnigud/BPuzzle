@@ -3,6 +3,8 @@ package com.example.BPuzzle;
 import android.app.Activity;
 import android.os.Bundle;
 
+import java.io.InputStream;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Konráð

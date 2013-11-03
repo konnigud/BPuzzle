@@ -11,9 +11,9 @@ public class Puzzle {
 
     int mId;
     int mLevel;
-    String[] mSetup;
+    String mSetup;
 
-    public Puzzle(String id, String lvl,String[] setup){
+    public Puzzle(String id, String lvl,String setup){
         mId = Integer.parseInt(id);
         mLevel = Integer.parseInt(lvl);
         mSetup = setup;

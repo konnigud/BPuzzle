@@ -3,6 +3,7 @@ package com.example.BPuzzle;
 import android.util.Xml;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,27 +21,34 @@ public class PuzzleXmlParser {
 
     private  static final String ns = null;
 
-    public List parse(InputStream in) throws XmlPullParserException,IOException {
+    public PuzzleXmlParser(){
+
+    }
+
+    public ArrayList<Puzzle> parse(InputStream in) throws XmlPullParserException,IOException {
         try{
-            XmlPullParser parser = Xml.newPullParser();
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            XmlPullParser parser = factory.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES,false);
             parser.setInput(in,null);
             parser.nextTag();
-
             return readFeed(parser);
         }
         catch (XmlPullParserException xEx){
-               throw xEx;
+            System.out.println(xEx.getMessage());
+            throw xEx;
         }
         catch (IOException e){
-               throw e;
+            System.out.println(e.getMessage());
+            throw e;
         }
         finally {
             in.close();
         }
     }
 
-    private List readFeed(XmlPullParser parser) throws XmlPullParserException,IOException{
+    private ArrayList<Puzzle> readFeed(XmlPullParser parser) throws XmlPullParserException,IOException{
         ArrayList<Puzzle> entries = new ArrayList<Puzzle>();
 
         parser.require(XmlPullParser.START_TAG,ns,"challenge");
@@ -68,7 +76,7 @@ public class PuzzleXmlParser {
 
         String id = parser.getAttributeValue(null,"id");
         String lvl = null;
-        String[] setup = null;
+        String setup = null;
 
         while (parser.next() != XmlPullParser.END_TAG){
             if (parser.getEventType() != XmlPullParser.START_TAG){
@@ -95,12 +103,12 @@ public class PuzzleXmlParser {
         return level;
     }
 
-    private String[] readSetup(XmlPullParser parser) throws XmlPullParserException, IOException{
+    private String readSetup(XmlPullParser parser) throws XmlPullParserException, IOException{
 
         parser.require(XmlPullParser.START_TAG,ns,"setup");
         String setup = readText(parser);
         parser.require(XmlPullParser.END_TAG,ns,"setup");
-        return  setup.split(", ");
+        return  setup;
     }
 
     private String readText(XmlPullParser parser) throws XmlPullParserException, IOException{
