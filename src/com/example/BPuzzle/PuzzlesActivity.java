@@ -3,11 +3,13 @@ package com.example.BPuzzle;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 /**
@@ -47,9 +49,18 @@ public class PuzzlesActivity extends ListActivity {
                 return false;
             }
         });
-
         setListAdapter(mCursorAdapter);
+    }
 
+
+    @Override
+    protected void onListItemClick(ListView l,View v,int p,long id){
+        System.out.println("p: "+p);
+        Intent intent = new Intent(this, GameActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable("puzzle_id",p+1);
+        intent.putExtras(extras);
+        startActivity( intent );
 
     }
 }

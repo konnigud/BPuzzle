@@ -11,6 +11,7 @@ package com.example.BPuzzle;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -53,7 +54,11 @@ public class BPuzzleActivity extends Activity {
 
     public void buttonPlayPressed( View view){
         Intent intent = new Intent(this, GameActivity.class);
-        startActivity( intent );
+        Cursor cursor = puzzleDB.getHighestOpen();
+        Bundle extras = new Bundle();
+        extras.putSerializable("puzzle_id",1);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 
     public void buttonPuzzlesPressed( View view){
