@@ -44,6 +44,7 @@ public class BPuzzleActivity extends Activity {
 
             }
             puzzleDB.openPuzzle(1);
+            puzzleDB.openPuzzle(2);
         }
         else{
             System.out.println("Database already exists");
@@ -54,10 +55,15 @@ public class BPuzzleActivity extends Activity {
 
     public void buttonPlayPressed( View view){
         Intent intent = new Intent(this, GameActivity.class);
+
         Cursor cursor = puzzleDB.getHighestOpen();
+        cursor.moveToFirst();
+        int puzzle = cursor.getInt(cursor.getPosition());
+
         Bundle extras = new Bundle();
-        extras.putSerializable("puzzle_id",1);
+        extras.putSerializable("puzzle_id",puzzle);
         intent.putExtras(extras);
+
         startActivity(intent);
     }
 

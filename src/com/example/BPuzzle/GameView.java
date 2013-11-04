@@ -1,11 +1,14 @@
 package com.example.BPuzzle;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
@@ -91,6 +94,10 @@ public class GameView extends View {
     private OnMoveEventHandler m_moveHandler = null;
     Rect m_rect = new Rect();
     ShapeDrawable m_shape = new ShapeDrawable( new OvalShape() );
+    int puzzle;
+    int score;
+    int startX;
+    int startY;
    // Bitmap bm = BitmapFactory.decodeFile("drawable/game_bckgrn.png");
 
     public GameView(Context context, AttributeSet attrs) {
@@ -103,8 +110,10 @@ public class GameView extends View {
         xOffset = 0;
         yOffset = 0;
 
-        String nextSetup = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getString("setup",null);
-        System.out.println("setup: "+ nextSetup);
+        score = 0;
+
+        String nextSetup = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getString("setup", null);
+        puzzle = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getInt("puzzle",0);
 
         String[] setup = nextSetup.split(", ");
 
@@ -177,6 +186,9 @@ public class GameView extends View {
         switch ( event.getAction() ) {
             case MotionEvent.ACTION_DOWN:
                 mMovingShape = findShape( x, y );
+                startX = mMovingShape.rect.left/m_cellWidth;
+                startY = mMovingShape.rect.top/m_cellHeight;
+                System.out.println("x,y: "+startX+","+startY);
                 break;
             case MotionEvent.ACTION_UP:
                 if ( mMovingShape != null ) {
@@ -184,18 +196,28 @@ public class GameView extends View {
                     if(mMovingShape.type == Orientation.VERTICAL){
                         int newTop = Math.round(((float)mMovingShape.rect.top)/((float)m_cellHeight));
                         mMovingShape.rect.offsetTo(mMovingShape.rect.left,newTop*m_cellHeight);
+                        score += Math.abs(startY-mMovingShape.rect.top/m_cellHeight);
                     }
                     else{
                         int newLeft = Math.round(((float)mMovingShape.rect.left)/((float)m_cellWidth));
                         mMovingShape.rect.offsetTo(newLeft*m_cellWidth,mMovingShape.rect.top);
+                        score += Math.abs(startX-mMovingShape.rect.left/m_cellWidth);
                         if(mMovingShape.rect.right >= mSize && mMovingShape == mShapes.get(0))
                             win = true;
                     }
+                    System.out.println("Score: "+score);
                     invalidate();
                     mMovingShape = null;
 
                     if(win){
                         Toast.makeText(super.getContext(),"YOU WIN!!!",Toast.LENGTH_LONG).show();
+                        Activity host = (Activity) this.getContext();
+                        Intent intent = new Intent(host,GameActivity.class);
+                        Bundle extras = new Bundle();
+                        extras.putSerializable("puzzle_id",puzzle+1);
+                        extras.putSerializable("score",score);
+                        intent.putExtras(extras);
+                        host.startActivity(intent);
                     }
                     // emit an custom event ....
                 }

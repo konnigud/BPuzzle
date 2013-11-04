@@ -108,6 +108,17 @@ public class PuzzlesDB {
     }
 
     public Cursor getHighestOpen(){
+        openToRead();
         return db.query(DBHelper.TablePuzzles,DBHelper.TablePuzzlesCol,DBHelper.TablePuzzlesCol[3]+"="+1,null,null,null,DBHelper.TablePuzzlesCol[0]+ " desc");
+    }
+
+    public boolean isOpen(int id){
+        openToRead();
+        String[] cols = {DBHelper.TablePuzzlesCol[0]};
+        Cursor cursor = db.query(DBHelper.TablePuzzles,cols,DBHelper.TablePuzzlesCol[0]+"="+id,null,null,null,null);
+        if(cursor.moveToFirst()){
+            return cursor.getInt(cursor.getPosition())==1 ? true : false;
+        }
+        return false;
     }
 }
