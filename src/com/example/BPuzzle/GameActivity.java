@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.InputStream;
@@ -45,7 +46,11 @@ public class GameActivity extends Activity {
             editor.putInt("score",score);
             editor.commit();
             cursor.close();
+
             setContentView(R.layout.game);
+            TextView tv = (TextView) findViewById(R.id.highScore);
+            tv.setText(((Integer)score).toString());
+
         }
         else{
             System.out.println("Could not load puzzle "+puzzle);

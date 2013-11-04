@@ -14,6 +14,7 @@ import android.util.Log;
 import android.util.Xml;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import org.xmlpull.v1.XmlPullParser;
 
@@ -96,7 +97,7 @@ public class GameView extends View {
     Rect m_rect = new Rect();
     ShapeDrawable m_shape = new ShapeDrawable( new OvalShape() );
     int puzzle;
-    int score;
+    int score = 0;
     int highScore;
     int startX;
     int startY;
@@ -208,9 +209,13 @@ public class GameView extends View {
                         if(mMovingShape.rect.right >= mSize && mMovingShape == mShapes.get(0))
                             win = true;
                     }
-                    System.out.println("Score: "+score);
+
+
+
                     invalidate();
+
                     mMovingShape = null;
+
 
                     if(win){
                         Toast.makeText(super.getContext(),"YOU WIN!!!",Toast.LENGTH_LONG).show();
@@ -218,7 +223,7 @@ public class GameView extends View {
                         Intent intent = new Intent(host,GameActivity.class);
                         Bundle extras = new Bundle();
                         extras.putSerializable("puzzle_id",puzzle+1);
-                        if(score < highScore){
+                        if(score < highScore || highScore == 0){
                             extras.putSerializable("score",score);
                         }
                         intent.putExtras(extras);
