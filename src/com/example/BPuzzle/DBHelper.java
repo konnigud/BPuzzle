@@ -15,17 +15,18 @@ import android.widget.Toast;
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "BPUZZLES_DB";
-    public static final int DB_VERSION = 5;
+    public static final int DB_VERSION = 8;
 
     public static final String TablePuzzles = "puzzles";
-    public static final String[] TablePuzzlesCol = {"_id","level","setup","open"};
+    public static final String[] TablePuzzlesCol = {"_id","level","setup","open","score"};
 
     public static final String sqlCreateTablePuzzles =
             "CREATE TABLE "+TablePuzzles+" ("+
             TablePuzzlesCol[0]+ " INTEGER PRIMARY KEY AUTOINCREMENT, "+
             TablePuzzlesCol[1]+ " INTEGER NOT NULL, "+
             TablePuzzlesCol[2]+ " TEXT, "+
-            TablePuzzlesCol[3]+ " INTEGER"+
+            TablePuzzlesCol[3]+ " INTEGER, "+
+            TablePuzzlesCol[4]+ " INTEGER"+
             ");";
 
     public static final  String sqlDropTablePuzzles = "DROP TABLE IF EXISTS "+TablePuzzles+";";

@@ -26,14 +26,23 @@ public class GameActivity extends Activity {
         int puzzle = Integer.parseInt(extras.getSerializable("puzzle_id").toString());
 
         PuzzlesDB puzzlesDB = new PuzzlesDB(this);
+
+        if(extras.getSerializable("score") != null){
+            int newScore = Integer.parseInt(extras.getSerializable("score").toString());
+            System.out.println("newScore: "+newScore);
+            puzzlesDB.updateScore(puzzle-1,newScore);
+        }
+
         puzzlesDB.openPuzzle(puzzle);
         Cursor cursor = puzzlesDB.queryPuzzle(puzzle);
         if(cursor.moveToFirst()){
             String setup = cursor.getString(cursor.getColumnIndex("setup"));
+            int score = cursor.getInt(cursor.getColumnIndex("score"));
             SharedPreferences.Editor editor = getSharedPreferences("myState",MODE_MULTI_PROCESS).edit();
             editor.clear();
-            editor.putString("setup",setup);
-            editor.putInt("puzzle",puzzle);
+            editor.putString("setup", setup);
+            editor.putInt("puzzle", puzzle);
+            editor.putInt("score",score);
             editor.commit();
             cursor.close();
             setContentView(R.layout.game);

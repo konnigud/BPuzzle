@@ -33,8 +33,8 @@ public class PuzzlesActivity extends ListActivity {
 
         Cursor cursor = puzzlesDB.queryPuzzles();
         String cols[] = DBHelper.TablePuzzlesCol;
-        String from[] = {cols[3],cols[0],cols[1]};
-        int to [] = {R.id.p_image,R.id.p_id,R.id.p_level};
+        String from[] = {cols[3],cols[0],cols[1],cols[4]};
+        int to [] = {R.id.p_image,R.id.p_id,R.id.p_level,R.id.p_score};
         startManagingCursor(cursor);
         mCursorAdapter = new SimpleCursorAdapter(this,R.layout.puzzlerow,cursor,from,to);
 

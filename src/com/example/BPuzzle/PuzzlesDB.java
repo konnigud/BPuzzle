@@ -48,6 +48,7 @@ public class PuzzlesDB {
             cv.put(cols[1],((Integer)p.mLevel).toString());
             cv.put(cols[2], p.mSetup);
             cv.put(cols[3], "0");
+            cv.put(cols[4], "0");
             long value =  db.insert(DBHelper.TablePuzzles,null,cv);
             if(value < 0 && success){
                 success = false;
@@ -62,6 +63,7 @@ public class PuzzlesDB {
         cv.put(cols[1],((Integer)level).toString());
         cv.put(cols[2], setup);
         cv.put(cols[3], "0");
+        cv.put(cols[4], "0");
         openToWrite();
         long value = db.insert(DBHelper.TablePuzzles,null,cv);
         close();
@@ -74,6 +76,7 @@ public class PuzzlesDB {
         cv.put(cols[1],((Integer)level).toString());
         cv.put(cols[2], setup);
         cv.put(cols[3], open ? "1":"0");
+        cv.put(cols[4], "0");
         openToWrite();
         long value = db.update(DBHelper.TablePuzzles,cv,cols[0] +"="+ id,null);
         close();
@@ -100,7 +103,7 @@ public class PuzzlesDB {
     public long openPuzzle(int id){
         String filter = DBHelper.TablePuzzlesCol[0]+"="+id;
         ContentValues cv = new ContentValues();
-        cv.put(DBHelper.TablePuzzlesCol[3],((Integer)1).toString());
+        cv.put(DBHelper.TablePuzzlesCol[3], ((Integer) 1).toString());
         openToWrite();
         long value = db.update(DBHelper.TablePuzzles,cv,filter,null);
         close();
@@ -120,5 +123,15 @@ public class PuzzlesDB {
             return cursor.getInt(cursor.getPosition())==1 ? true : false;
         }
         return false;
+    }
+
+    public long updateScore(int id,int score){
+        openToWrite();
+        String filter = DBHelper.TablePuzzlesCol[0]+"="+id;
+        ContentValues cv = new ContentValues();
+        cv.put(DBHelper.TablePuzzlesCol[4],((Integer)score).toString());
+        long value = db.update(DBHelper.TablePuzzles,cv,filter,null);
+        close();
+        return value;
     }
 }

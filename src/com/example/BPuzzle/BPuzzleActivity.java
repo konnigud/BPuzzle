@@ -44,7 +44,6 @@ public class BPuzzleActivity extends Activity {
 
             }
             puzzleDB.openPuzzle(1);
-            puzzleDB.openPuzzle(2);
         }
         else{
             System.out.println("Database already exists");

@@ -96,6 +96,7 @@ public class GameView extends View {
     ShapeDrawable m_shape = new ShapeDrawable( new OvalShape() );
     int puzzle;
     int score;
+    int highScore;
     int startX;
     int startY;
    // Bitmap bm = BitmapFactory.decodeFile("drawable/game_bckgrn.png");
@@ -114,6 +115,7 @@ public class GameView extends View {
 
         String nextSetup = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getString("setup", null);
         puzzle = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getInt("puzzle",0);
+        highScore = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getInt("score",0);
 
         String[] setup = nextSetup.split(", ");
 
@@ -215,7 +217,9 @@ public class GameView extends View {
                         Intent intent = new Intent(host,GameActivity.class);
                         Bundle extras = new Bundle();
                         extras.putSerializable("puzzle_id",puzzle+1);
-                        extras.putSerializable("score",score);
+                        if(score < highScore){
+                            extras.putSerializable("score",score);
+                        }
                         intent.putExtras(extras);
                         host.startActivity(intent);
                     }

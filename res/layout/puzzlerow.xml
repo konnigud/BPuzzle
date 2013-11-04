@@ -49,5 +49,23 @@
             android:singleLine="true"
             android:layout_weight="1"
             />
+    <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:singleLine="true"
+            android:layout_weight="1"
+            android:text="Score:"
+            />
+    <TextView
+            android:id="@+id/p_score"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:textColor="#ff0000"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:singleLine="true"
+            android:layout_weight="1"
+            />
 
 </LinearLayout>
