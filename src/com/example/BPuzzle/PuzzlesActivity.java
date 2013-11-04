@@ -39,12 +39,11 @@ public class PuzzlesActivity extends ListActivity {
         mCursorAdapter = new SimpleCursorAdapter(this,R.layout.puzzlerow,cursor,from,to);
 
         mCursorAdapter.setViewBinder( new SimpleCursorAdapter.ViewBinder() {
-            String imageFinder = "puzzle1";
+            String imageFinder = "puzzle";
             @Override
             public boolean setViewValue(View view, Cursor cursor, int i) {
-                if(i==0) {
-                    imageFinder = "puzzle"+ cursor.getInt(i);
-                }
+                    imageFinder = "puzzle"+ cursor.getInt(cursor.getColumnIndex("_id"));
+                    System.out.println(imageFinder);
                 if ( i==3 ) {
                     if(cursor.getInt(i) == 0) {
                         imageFinder = imageFinder + "lock";
