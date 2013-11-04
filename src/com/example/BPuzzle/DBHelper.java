@@ -15,7 +15,7 @@ import android.widget.Toast;
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "BPUZZLES_DB";
-    public static final int DB_VERSION = 8;
+    public static final int DB_VERSION = 9;
 
     public static final String TablePuzzles = "puzzles";
     public static final String[] TablePuzzlesCol = {"_id","level","setup","open","score"};

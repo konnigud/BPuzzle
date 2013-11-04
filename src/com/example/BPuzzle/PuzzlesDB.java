@@ -117,7 +117,7 @@ public class PuzzlesDB {
 
     public boolean isOpen(int id){
         openToRead();
-        String[] cols = {DBHelper.TablePuzzlesCol[0]};
+        String[] cols = {DBHelper.TablePuzzlesCol[3]};
         Cursor cursor = db.query(DBHelper.TablePuzzles,cols,DBHelper.TablePuzzlesCol[0]+"="+id,null,null,null,null);
         if(cursor.moveToFirst()){
             return cursor.getInt(cursor.getPosition())==1 ? true : false;

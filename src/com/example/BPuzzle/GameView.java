@@ -105,7 +105,6 @@ public class GameView extends View {
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        System.out.println("context: " + context.isRestricted());
         m_Paint.setColor(Color.WHITE);
        // m_Paint.
         m_Paint.setStyle( Paint.Style.STROKE );
@@ -154,8 +153,6 @@ public class GameView extends View {
             }
         }*/
         canvas.drawBitmap(background, null, new Rect(0,0,canvas.getWidth(),getHeight()), null);
-        System.out.println("MaxHeight: " + canvas.getHeight());
-        System.out.println("MaxWidth: " + canvas.getWidth());
 
         for ( MyShape shape : mShapes ) {
             mPaint.setColor( shape.color );
@@ -194,7 +191,6 @@ public class GameView extends View {
                 mMovingShape = findShape( x, y );
                 startX = mMovingShape.rect.left/m_cellWidth;
                 startY = mMovingShape.rect.top/m_cellHeight;
-                System.out.println("x,y: "+startX+","+startY);
                 break;
             case MotionEvent.ACTION_UP:
                 if ( mMovingShape != null ) {

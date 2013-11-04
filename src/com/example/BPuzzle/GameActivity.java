@@ -3,6 +3,7 @@ package com.example.BPuzzle;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -31,10 +32,10 @@ public class GameActivity extends Activity {
         if(extras.getSerializable("score") != null){
             int newScore = Integer.parseInt(extras.getSerializable("score").toString());
             System.out.println("newScore: "+newScore);
-            puzzlesDB.updateScore(puzzle-1,newScore);
+            System.out.println(puzzlesDB.updateScore(puzzle-1,newScore));
         }
-
-        puzzlesDB.openPuzzle(puzzle);
+        System.out.println("puzzle: "+puzzle);
+        System.out.println("open: " + puzzlesDB.openPuzzle(puzzle));
         Cursor cursor = puzzlesDB.queryPuzzle(puzzle);
         if(cursor.moveToFirst()){
             String setup = cursor.getString(cursor.getColumnIndex("setup"));
@@ -59,5 +60,10 @@ public class GameActivity extends Activity {
             startActivity(intent);
         }
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }
