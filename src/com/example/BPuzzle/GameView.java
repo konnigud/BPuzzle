@@ -84,6 +84,7 @@ public class GameView extends View {
     Paint m_Paint = new Paint();
     ArrayList<MyShape> mShapes = new ArrayList<MyShape>();
     MyShape mMovingShape = null;
+
     int xOffset;
     int yOffset;
     Bitmap background = BitmapFactory.decodeResource(getResources(),R.drawable.game);
@@ -139,7 +140,7 @@ public class GameView extends View {
 
 
     protected void onDraw( Canvas canvas ) {
-       canvas.drawBitmap(background, 0, 0, null);
+
         /*for ( int r=5; r>=0; --r ) {
             for ( int c=0; c<6; ++c ) {
                 m_rect.set( c * m_cellWidth, r * m_cellHeight,
@@ -151,7 +152,7 @@ public class GameView extends View {
 
             }
         }*/
-
+        canvas.drawBitmap(background, null, new Rect(0,0,canvas.getWidth(),getHeight()), null);
         System.out.println("MaxHeight: " + canvas.getHeight());
         System.out.println("MaxWidth: " + canvas.getWidth());
 
