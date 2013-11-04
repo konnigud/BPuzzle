@@ -27,7 +27,9 @@ public class PuzzlesActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         puzzlesDB = new PuzzlesDB(this);
+
         Cursor cursor = puzzlesDB.queryPuzzles();
         String cols[] = DBHelper.TablePuzzlesCol;
         String from[] = {cols[3],cols[0],cols[1]};
@@ -36,16 +38,20 @@ public class PuzzlesActivity extends ListActivity {
         mCursorAdapter = new SimpleCursorAdapter(this,R.layout.puzzlerow,cursor,from,to);
 
         mCursorAdapter.setViewBinder( new SimpleCursorAdapter.ViewBinder() {
+            String imageFinder = "puzzle1";
             @Override
             public boolean setViewValue(View view, Cursor cursor, int i) {
-                System.out.println("setViewValue i:" +i);
+                if(i==0) {
+                    imageFinder = "puzzle"+ cursor.getInt(i);
+                }
                 if ( i==3 ) {
-                    System.out.println("cursor.getInt(i): "+cursor.getInt(i));
-                    ((ImageView) view).setImageResource(
-                            (cursor.getInt(i) == 0) ? R.drawable.lock : R.drawable.hero);
+                    if(cursor.getInt(i) == 0) {
+                        imageFinder = imageFinder + "lock";
+                    }
+                    int id  = getResources().getIdentifier(imageFinder, "drawable",  getPackageName());
+                    ((ImageView) view).setImageResource(id);
                     return true;
                 }
-
                 return false;
             }
         });
