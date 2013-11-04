@@ -95,6 +95,9 @@ public class GameView extends View {
     Rect m_rect = new Rect();
     ShapeDrawable m_shape = new ShapeDrawable( new OvalShape() );
     int puzzle;
+    int score;
+    int startX;
+    int startY;
    // Bitmap bm = BitmapFactory.decodeFile("drawable/game_bckgrn.png");
 
     public GameView(Context context, AttributeSet attrs) {
@@ -106,6 +109,8 @@ public class GameView extends View {
 
         xOffset = 0;
         yOffset = 0;
+
+        score = 0;
 
         String nextSetup = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getString("setup", null);
         puzzle = context.getSharedPreferences("myState",Context.MODE_MULTI_PROCESS).getInt("puzzle",0);
@@ -181,6 +186,9 @@ public class GameView extends View {
         switch ( event.getAction() ) {
             case MotionEvent.ACTION_DOWN:
                 mMovingShape = findShape( x, y );
+                startX = mMovingShape.rect.left/m_cellWidth;
+                startY = mMovingShape.rect.top/m_cellHeight;
+                System.out.println("x,y: "+startX+","+startY);
                 break;
             case MotionEvent.ACTION_UP:
                 if ( mMovingShape != null ) {
@@ -188,13 +196,16 @@ public class GameView extends View {
                     if(mMovingShape.type == Orientation.VERTICAL){
                         int newTop = Math.round(((float)mMovingShape.rect.top)/((float)m_cellHeight));
                         mMovingShape.rect.offsetTo(mMovingShape.rect.left,newTop*m_cellHeight);
+                        score += Math.abs(startY-mMovingShape.rect.top/m_cellHeight);
                     }
                     else{
                         int newLeft = Math.round(((float)mMovingShape.rect.left)/((float)m_cellWidth));
                         mMovingShape.rect.offsetTo(newLeft*m_cellWidth,mMovingShape.rect.top);
+                        score += Math.abs(startX-mMovingShape.rect.left/m_cellWidth);
                         if(mMovingShape.rect.right >= mSize && mMovingShape == mShapes.get(0))
                             win = true;
                     }
+                    System.out.println("Score: "+score);
                     invalidate();
                     mMovingShape = null;
 
@@ -204,6 +215,7 @@ public class GameView extends View {
                         Intent intent = new Intent(host,GameActivity.class);
                         Bundle extras = new Bundle();
                         extras.putSerializable("puzzle_id",puzzle+1);
+                        extras.putSerializable("score",score);
                         intent.putExtras(extras);
                         host.startActivity(intent);
                     }
