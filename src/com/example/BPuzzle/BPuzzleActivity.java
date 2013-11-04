@@ -70,4 +70,9 @@ public class BPuzzleActivity extends Activity {
         Intent intent = new Intent(this, PuzzlesActivity.class);
         startActivity( intent );
     }
+
+    public void buttonOptionsPressed(View view){
+        Intent intent = new Intent(this,OptionsActivity.class);
+        startActivity(intent);
+    }
 }

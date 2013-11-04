@@ -134,4 +134,15 @@ public class PuzzlesDB {
         close();
         return value;
     }
+
+    public long resetDatabase(){
+        openToRead();
+        String[] cols = {DBHelper.TablePuzzlesCol[3],DBHelper.TablePuzzlesCol[4]};
+        ContentValues cv = new ContentValues();
+        cv.put(cols[0],"0");
+        cv.put(cols[1],"0");
+        long value = db.update(DBHelper.TablePuzzles,cv,null,null);
+        close();
+        return value;
+    }
 }

@@ -189,8 +189,10 @@ public class GameView extends View {
         switch ( event.getAction() ) {
             case MotionEvent.ACTION_DOWN:
                 mMovingShape = findShape( x, y );
-                startX = mMovingShape.rect.left/m_cellWidth;
-                startY = mMovingShape.rect.top/m_cellHeight;
+                if(mMovingShape != null){
+                    startX = mMovingShape.rect.left/m_cellWidth;
+                    startY = mMovingShape.rect.top/m_cellHeight;
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 if ( mMovingShape != null ) {
@@ -207,9 +209,6 @@ public class GameView extends View {
                         if(mMovingShape.rect.right >= mSize && mMovingShape == mShapes.get(0))
                             win = true;
                     }
-
-
-
                     invalidate();
 
                     mMovingShape = null;

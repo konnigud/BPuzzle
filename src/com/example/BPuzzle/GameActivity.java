@@ -51,6 +51,8 @@ public class GameActivity extends Activity {
             setContentView(R.layout.game);
             TextView tv = (TextView) findViewById(R.id.highScore);
             tv.setText(((Integer)score).toString());
+            tv = (TextView) findViewById(R.id.g_puzzle);
+            tv.setText(((Integer)puzzle).toString());
 
         }
         else{
